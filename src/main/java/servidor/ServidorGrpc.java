@@ -7,6 +7,9 @@ import io.grpc.examples.helloworld.HelloReply;
 import io.grpc.examples.helloworld.HelloRequest;
 import io.grpc.stub.StreamObserver;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,13 +19,14 @@ public class ServidorGrpc {
     private Server server;
     
     private BlockingQueue<String> fila01;
+    
 
     
     
-    public ServidorGrpc(BlockingQueue um, ServerBuilder g, BlockingQueue resposta) throws IOException{
+    public ServidorGrpc(BlockingQueue um, ServerBuilder g, BlockingQueue resposta, Map<BigInteger, ArrayList<String>> monitorar) throws IOException{
 
         fila01 = um;
-        server = g.addService(new GreeterImpl(fila01, resposta))
+        server = g.addService(new GreeterImpl(fila01, resposta, monitorar))
         .build()
         .start();
     }
@@ -58,28 +62,51 @@ public class ServidorGrpc {
     static class GreeterImpl extends GreeterGrpc.GreeterImplBase {
         private BlockingQueue<String> filatemp;
         private BlockingQueue<String> filaResposta;
-    public GreeterImpl(BlockingQueue um, BlockingQueue resposta){
+        private Map<BigInteger, ArrayList<String>> monitorargrpc;
+    public GreeterImpl(BlockingQueue um, BlockingQueue resposta, Map<BigInteger, ArrayList<String>> monitorar){
         filatemp = um;
         filaResposta = resposta;
+        monitorargrpc = monitorar;
     }
         
         
     @Override
     public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
-      
-      filatemp.add(req.getName());
-            try {
-                String resposta = filaResposta.take();
-                HelloReply reply = HelloReply.newBuilder().setMessage(resposta).build();
+        String[] partes = req.getName().split(" ");
+       
+        filatemp.add(req.getName());
+        String resposta;
+        if(partes[0].equals("5")){
+            int i=0;
+            //while(true){
+                if(monitorargrpc.containsKey(new BigInteger(partes[1]))){
+                    resposta = monitorargrpc.get(new BigInteger(partes[1])).get(i);
+                    HelloReply reply = HelloReply.newBuilder().setMessage(resposta).build();
 
+                    responseObserver.onNext(reply);
+                    responseObserver.onCompleted();                    
+                    i++;                    
+                }
+
+           // }
+
+        }
+        else{
+            try {
+                resposta = filaResposta.take();
+                HelloReply reply = HelloReply.newBuilder().setMessage(resposta).build();
+                
                 responseObserver.onNext(reply);
-                responseObserver.onCompleted();                
+                responseObserver.onCompleted();
             } catch (InterruptedException ex) {
                 Logger.getLogger(ServidorGrpc.class.getName()).log(Level.SEVERE, null, ex);
             }
-      
-
+            
+        }
     }
+    
+    
+    
   }
   
 }

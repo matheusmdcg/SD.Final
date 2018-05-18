@@ -43,6 +43,9 @@ public class ServidorPrincipal{
         BlockingQueue<String> fila03 = new LinkedBlockingDeque<String>();
         BlockingQueue<String> filaResposta = new LinkedBlockingDeque<String>();
         
+
+        Map<BigInteger, ArrayList<String>> monitorar = new HashMap<BigInteger, ArrayList<String>>();
+        Map<BigInteger, ArrayList<String>> monitorargrpc = new HashMap<BigInteger, ArrayList<String>>();
         Map<BigInteger, String> mapa = new HashMap<BigInteger, String>();
         
         ServerBuilder<? extends ServerBuilder<?>> serverc = ServerBuilder.forPort(portagrpc);
@@ -61,7 +64,7 @@ public class ServidorPrincipal{
         ThreadLog s1 = new ThreadLog(fila02, escrita);
         ThreadFilas s2 = new ThreadFilas(fila01, fila02, fila03);
 
-        ThreadCrud s3 = new ThreadCrud(fila03, mapa, socket,filaResposta);
+        ThreadCrud s3 = new ThreadCrud(fila03, mapa, socket,filaResposta, monitorar);
 
         ThreadReceber s4 = new ThreadReceber(socket,fila01);
 
@@ -72,9 +75,8 @@ public class ServidorPrincipal{
         pool.execute(s2);
         pool.execute(s3);
         pool.execute(s4);
-        
-        
-        ServidorGrpc grpc = new ServidorGrpc(fila01, serverc, filaResposta);
+                
+        ServidorGrpc grpc = new ServidorGrpc(fila01, serverc, filaResposta, monitorargrpc);
         grpc.start();
         grpc.blockUntilShutdown();
         

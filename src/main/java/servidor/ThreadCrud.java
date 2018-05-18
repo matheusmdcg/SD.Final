@@ -15,6 +15,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,17 +41,22 @@ public class ThreadCrud extends Thread implements Runnable{
     
     private int porta;
     private InetAddress address;
+
     
     private DatagramPacket packet = new DatagramPacket(buf, buf.length);
     
     private BlockingQueue<String> filaResposta;
+    private BlockingQueue<String> filaM;
+    
+    private Map<BigInteger, ArrayList<String>> monitorar;
     
     
-    public ThreadCrud(BlockingQueue tres,  Map mapas, DatagramSocket so, BlockingQueue resposta) throws SocketException, FileNotFoundException, IOException{
+    public ThreadCrud(BlockingQueue tres,  Map mapas, DatagramSocket so, BlockingQueue resposta, Map<BigInteger, ArrayList<String>> m) throws SocketException, FileNotFoundException, IOException{
         fila = tres;
         mapa = mapas;
         socket = so;
         filaResposta = resposta;
+        monitorar= m;
     }
 
     
@@ -81,24 +87,24 @@ public class ThreadCrud extends Thread implements Runnable{
             valor = partes[++i];
         
         if(grpc == false){
-            address = InetAddress.getByName(partes[++i].substring(1));
-            porta = Integer.parseInt(partes[++i]);
-            String n = this.processar(operacao, chave, valor);        
-            this.enviar(n);
+            InetAddress address = InetAddress.getByName(partes[++i].substring(1));
+            int porta = Integer.parseInt(partes[++i]);
+            String n = this.processar(operacao, chave, valor, grpc);      
+            this.enviar(n, address, porta);
         }
         else{
-            String n = this.processar(operacao, chave, valor);
+            String n = this.processar(operacao, chave, valor, grpc);
             filaResposta.add(n);
         }
 
         i=0;
     }
     
-    public String processar(int operacao, BigInteger chave, String valor) throws IOException, InterruptedException{
+    public String processar(int operacao, BigInteger chave, String valor, boolean grpc) throws IOException, InterruptedException{
         String retorno;
         switch (operacao){
             case 1:
-                retorno = this.criar(chave, valor);
+                retorno = this.criar(chave, valor, grpc, operacao);
                 break;
             case 2:
                 retorno = this.ler(chave, valor);
@@ -109,28 +115,79 @@ public class ThreadCrud extends Thread implements Runnable{
             case 4:
                 retorno = this.deletar(chave, valor);
                 break;
+            case 5:
+                retorno = this.monitorar(chave, grpc);
+                break;
             default:
                 retorno = "Sem valor";
         }
         return retorno;
     }
     
-    public void enviar(String n) throws IOException{
+    public String monitorar(BigInteger chave, boolean grpc){
+        ArrayList<String> temp = null;
+        if(monitorar.containsKey(chave)){
+            temp = monitorar.get(chave);
+        }
+        else{
+            temp = new ArrayList<String>();
+        }
+        if(grpc == false){
+            
+            String portaip = address.toString()+" "+Integer.toString(porta);
+            
+            temp.add(portaip);
+            
+            monitorar.put(chave, temp);
+            return "Chave sendo monitorada\n";
+            
+        }
+        else{
+            return "Chave sendo monitorada\n";
+        }
+        
+    }
+    
+    
+    public void enviar(String n, InetAddress address, int porta) throws IOException{
         buf = n.getBytes();
         packet = new DatagramPacket(buf, buf.length, address, porta);
         socket.send(packet);
     }
     
+    public void enviar2(String[] partes, String retorno) throws UnknownHostException, IOException{
+        buf = retorno.getBytes();
+        packet = new DatagramPacket(buf, buf.length, InetAddress.getByName(partes[0].substring(1)), Integer.parseInt(partes[1]));
+        socket.send(packet);
+    }
     
-    public String criar(BigInteger chave, String valor) throws IOException, InterruptedException{
+    public void verificar(BigInteger chave, boolean grpc, String retorno) throws IOException{
+        String[] partes;
+        for(String temp: monitorar.get(chave)){
+            if(grpc == false){
+                 partes = temp.split(" ");
+                 this.enviar2(partes, retorno);            
+            }
+            else{
+                
+            }
+        }
+    }
+    
+    
+    public String criar(BigInteger chave, String valor, boolean grpc,int operacao) throws IOException, InterruptedException{
         
         if(valor == null)
             return "Nao foi possivel criar poque o valor nao foi especificado";
         else{
             if(mapa.put(chave, valor) != null)
                 return "Não Criado";
-            else
-                return "Criado";    
+            else{
+                if(monitorar.containsKey(chave))
+                    this.verificar(chave, grpc, "Chave "+chave+"criada com o valor "+valor+"\n");
+                return "Criado";
+            }
+                    
         }
     }
     
@@ -169,8 +226,5 @@ public class ThreadCrud extends Thread implements Runnable{
         } catch (InterruptedException | IOException ex) {
             Logger.getLogger(ThreadCrud.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-    
     }
-    
 }

@@ -1,9 +1,2 @@
-1 20 joao
-1 88 yr
-1 77 claudio
-1 55 twe
 1 30 matheus
 1 10 joao
-1 30 matheus
-1 10 joao
-1 40 lasaro

@@ -55,7 +55,7 @@ public class ThreadLog extends Thread implements Runnable{
                     else
                         grpc = false;              
                     
-                    if(partes[0].equals("2"))
+                    if(partes[0].equals("2")||partes[0].equals("5"))
                         continue;
                     else
                         str = partes[0]+" "+partes[1];

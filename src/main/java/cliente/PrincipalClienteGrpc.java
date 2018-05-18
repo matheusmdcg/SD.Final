@@ -1,11 +1,6 @@
 package cliente;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Properties;
@@ -28,7 +23,6 @@ public class PrincipalClienteGrpc {
               
             while(true){
                 String msg = sc.nextLine();
-                System.out.println("oq foi escrito: "+msg);
                 client.greet(msg);
             }
           } finally {
