@@ -65,7 +65,7 @@ public class ProcessaLog{
     
     public String criar(BigInteger chave, String valor) throws IOException, InterruptedException{
 
-        if(mapa.put(chave, valor) == null)
+        if(mapa.put(chave, valor) != null)
             return "Não Criado";
         else
             return "Criado";

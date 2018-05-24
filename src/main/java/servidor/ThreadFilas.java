@@ -1,21 +1,8 @@
 package servidor;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +18,6 @@ public class ThreadFilas extends Thread implements Runnable{
             fila03 = tres;
     }
     
-
     @Override
     public void run() {
         while(true){
@@ -43,7 +29,6 @@ public class ThreadFilas extends Thread implements Runnable{
             } catch (InterruptedException ex) {
                 Logger.getLogger(ThreadFilas.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }        
     }
       

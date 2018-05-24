@@ -2,9 +2,9 @@ package cliente;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -33,26 +33,26 @@ public class ThreadTeclado extends Thread implements Runnable{
     @Override
     public void run(){
         running = true;
-        while(running){
+
         try {
             this.funcaoTeste();
             } catch (IOException ex) {
                 Logger.getLogger(ThreadTeclado.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+
+        running = true;
+        Scanner sc = new Scanner(System.in);
+        while(running){
+            String msg = sc.nextLine();
+            try {
+                this.sendEcho(msg, portaservidor);
+            } catch (IOException ex) {
+                Logger.getLogger(ThreadTeclado.class.getName()).log(Level.SEVERE, null, ex);
+            }            
         }
 
-//        running = true;
-//        Scanner sc = new Scanner(System.in);
-//        while(running){
-//            String msg = sc.nextLine();
-//            try {
-//                this.sendEcho(msg, portaservidor);
-//            } catch (IOException ex) {
-//                Logger.getLogger(ThreadTeclado.class.getName()).log(Level.SEVERE, null, ex);
-//            }            
-//        }
-//
-//        sc.close();
+        sc.close();
         socket.close();
     }
  
@@ -69,12 +69,10 @@ public class ThreadTeclado extends Thread implements Runnable{
         else{
             System.out.println("Tamanho da chave excedido");
         }
-        
-        
-
     }
     
     public void funcaoTeste() throws IOException{
+        FileOutputStream escrita = new FileOutputStream("teclado.txt", true);
         String str;
         if(leitura != null){
             str = leitura.readLine();

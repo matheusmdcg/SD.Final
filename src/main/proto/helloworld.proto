@@ -23,7 +23,8 @@ package helloworld;
 // The greeting service definition.
 service Greeter {
   // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc Say (HelloRequest) returns (HelloReply) {}
+  rpc create (CreateRequest) returns (CreateReply) {}
 }
 
 
@@ -35,4 +36,15 @@ message HelloRequest {
 // The response message containing the greetings
 message HelloReply {
   string message = 1;
+}
+
+// The request message containing the user's name.
+message CreateRequest {
+  String chave = 1;
+  String valor = 2;
+}
+
+// The response message containing the greetings
+message CreateReply {
+  boolean ok = 1;
 }

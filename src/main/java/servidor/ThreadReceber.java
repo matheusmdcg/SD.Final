@@ -1,20 +1,12 @@
 package servidor;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,11 +14,8 @@ public class ThreadReceber extends Thread implements Runnable{
     
     private DatagramSocket socket;
     private byte[] buf = new byte[1400];
-
     private BlockingQueue<String> fila01;
 
-
-    
     public ThreadReceber(DatagramSocket so, BlockingQueue um) throws SocketException, FileNotFoundException{
         this.socket  = so;
         fila01 = um;

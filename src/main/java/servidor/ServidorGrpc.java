@@ -8,6 +8,7 @@ import io.grpc.examples.helloworld.HelloRequest;
 import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
@@ -71,38 +72,39 @@ public class ServidorGrpc {
         
         
     @Override
-    public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
+    public void say(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
         String[] partes = req.getName().split(" ");
        
-        filatemp.add(req.getName());
-        String resposta;
-        if(partes[0].equals("5")){
-            int i=0;
-            //while(true){
-                if(monitorargrpc.containsKey(new BigInteger(partes[1]))){
-                    resposta = monitorargrpc.get(new BigInteger(partes[1])).get(i);
-                    HelloReply reply = HelloReply.newBuilder().setMessage(resposta).build();
-
-                    responseObserver.onNext(reply);
-                    responseObserver.onCompleted();                    
-                    i++;                    
-                }
-
-           // }
-
-        }
-        else{
             try {
-                resposta = filaResposta.take();
-                HelloReply reply = HelloReply.newBuilder().setMessage(resposta).build();
+                              
+                if(!partes[0].equals("6")){
+                    filatemp.add(req.getName());
+                    String resposta;
+                    resposta = filaResposta.take();                         
+                    HelloReply reply = HelloReply.newBuilder().setMessage(resposta).build();
+                    responseObserver.onNext(reply);
+                    responseObserver.onCompleted();
+                }
+                else{
+                    while(true){
+                        BigInteger chave = new BigInteger(partes[1]);
+                        if(monitorargrpc.containsKey(chave)){
+                            for(String temp: monitorargrpc.get(chave)){
+                                HelloReply reply = HelloReply.newBuilder().setMessage(temp).build();
+                                responseObserver.onNext(reply);
+                                responseObserver.onCompleted();                               
+                            }
+                            monitorargrpc.remove(chave);
+                            break;
+                        }                      
+                    }
+                }
                 
-                responseObserver.onNext(reply);
-                responseObserver.onCompleted();
             } catch (InterruptedException ex) {
                 Logger.getLogger(ServidorGrpc.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-        }
+        
     }
     
     

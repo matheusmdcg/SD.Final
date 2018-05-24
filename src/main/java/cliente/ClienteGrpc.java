@@ -42,9 +42,11 @@ public class ClienteGrpc {
   /** Say hello to server. */
   public void greet(String name) {
     HelloRequest request = HelloRequest.newBuilder().setName(name).build();
+   // CreateRequest request = HelloRequest.newBuilder().setChave(name).setValor(valor).build();
+    
     HelloReply response;
     try {
-      response = blockingStub.sayHello(request);
+      response = blockingStub.say(request);
     } catch (StatusRuntimeException e) {
       logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
       return;

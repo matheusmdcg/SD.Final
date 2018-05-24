@@ -20,9 +20,18 @@ public class PrincipalClienteGrpc {
         ClienteGrpc client = new ClienteGrpc(ipgrpc, portagrpc);
         Scanner sc = new Scanner(System.in);
           try {
-              
+            String msg;
+            String[] partes = null;
             while(true){
-                String msg = sc.nextLine();
+                if(partes!=null && partes[0].equals("5")){
+                    
+                    client.greet("6 "+partes[1]);
+                    msg = sc.nextLine();
+                    partes = msg.split(" ");
+                    continue;
+                }                
+                msg = sc.nextLine();
+                partes = msg.split(" ");
                 client.greet(msg);
             }
           } finally {

@@ -1,2 +1,5 @@
-1 30 matheus
-1 10 joao
+1 20 matheus
+1 30 joao
+1 40 lasaro
+3 40 mate
+3 40 jjj
