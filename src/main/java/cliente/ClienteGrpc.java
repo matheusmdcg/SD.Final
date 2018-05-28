@@ -4,9 +4,7 @@ package cliente;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
-import io.grpc.examples.helloworld.GreeterGrpc;
-import io.grpc.examples.helloworld.HelloReply;
-import io.grpc.examples.helloworld.HelloRequest;
+import io.grpc.examples.helloworld.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,21 +37,23 @@ public class ClienteGrpc {
     channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
   }
 
-  /** Say hello to server. */
-  public void greet(String name) {
-    HelloRequest request = HelloRequest.newBuilder().setName(name).build();
-   // CreateRequest request = HelloRequest.newBuilder().setChave(name).setValor(valor).build();
-    
-    HelloReply response;
-    try {
-      response = blockingStub.say(request);
-    } catch (StatusRuntimeException e) {
-      logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
-      return;
+    public void greet(String msg) {
+        String[] partes = msg.split(" ");
+            if(!partes[0].equals("5")){        
+                Request request = Request.newBuilder().setTudo(msg).build();
+                Reply response;
+                response = blockingStub.say(request);
+                logger.info("Resposta: " + response.getResp());
+            }
+            else{
+                Request request = Request.newBuilder().setTudo(msg).build();
+                Reply response;
+                response = blockingStub.say(request);
+                logger.info("Mudança: " + response.getResp());
+            }
     }
-    logger.info("Resposta: " + response.getMessage());
-  }
-
-
 }
+
+
+
 

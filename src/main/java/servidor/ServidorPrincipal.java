@@ -2,6 +2,8 @@ package servidor;
 
 import cliente.*;
 import io.grpc.ServerBuilder;
+import io.grpc.examples.helloworld.Reply;
+import io.grpc.stub.StreamObserver;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -18,6 +20,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.io.grpc.examples.helloworld.*;
 
 
 
@@ -37,7 +40,7 @@ public class ServidorPrincipal{
         BlockingQueue<String> filaResposta = new LinkedBlockingDeque<String>();
        
         Map<BigInteger, ArrayList<String>> monitorar = new HashMap<BigInteger, ArrayList<String>>();
-        Map<BigInteger, ArrayList<String>> monitorargrpc = new HashMap<BigInteger, ArrayList<String>>();
+        Map<BigInteger, ArrayList<StreamObserver<Reply>>> monitorargrpc = new HashMap<BigInteger, ArrayList<StreamObserver<Reply>>>();
         Map<BigInteger, String> mapa = new HashMap<BigInteger, String>();
         
         
@@ -59,7 +62,7 @@ public class ServidorPrincipal{
         pool.execute(s3);
         pool.execute(s4);
         
-        ServerBuilder<? extends ServerBuilder<?>> serverc = ServerBuilder.forPort(portagrpc);      
+        ServerBuilder<? extends ServerBuilder<?>> serverc = ServerBuilder.forPort(portagrpc);
         ServidorGrpc grpc = new ServidorGrpc(fila01, serverc, filaResposta, monitorargrpc);
         grpc.start();
         grpc.blockUntilShutdown();

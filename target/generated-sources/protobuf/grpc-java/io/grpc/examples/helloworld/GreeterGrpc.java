@@ -32,40 +32,151 @@ public final class GreeterGrpc {
   // Static method descriptors that strictly reflect the proto.
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getSayMethod()} instead. 
-  public static final io.grpc.MethodDescriptor<io.grpc.examples.helloworld.HelloRequest,
-      io.grpc.examples.helloworld.HelloReply> METHOD_SAY = getSayMethodHelper();
+  public static final io.grpc.MethodDescriptor<io.grpc.examples.helloworld.Request,
+      io.grpc.examples.helloworld.Reply> METHOD_SAY = getSayMethodHelper();
 
-  private static volatile io.grpc.MethodDescriptor<io.grpc.examples.helloworld.HelloRequest,
-      io.grpc.examples.helloworld.HelloReply> getSayMethod;
+  private static volatile io.grpc.MethodDescriptor<io.grpc.examples.helloworld.Request,
+      io.grpc.examples.helloworld.Reply> getSayMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static io.grpc.MethodDescriptor<io.grpc.examples.helloworld.HelloRequest,
-      io.grpc.examples.helloworld.HelloReply> getSayMethod() {
+  public static io.grpc.MethodDescriptor<io.grpc.examples.helloworld.Request,
+      io.grpc.examples.helloworld.Reply> getSayMethod() {
     return getSayMethodHelper();
   }
 
-  private static io.grpc.MethodDescriptor<io.grpc.examples.helloworld.HelloRequest,
-      io.grpc.examples.helloworld.HelloReply> getSayMethodHelper() {
-    io.grpc.MethodDescriptor<io.grpc.examples.helloworld.HelloRequest, io.grpc.examples.helloworld.HelloReply> getSayMethod;
+  private static io.grpc.MethodDescriptor<io.grpc.examples.helloworld.Request,
+      io.grpc.examples.helloworld.Reply> getSayMethodHelper() {
+    io.grpc.MethodDescriptor<io.grpc.examples.helloworld.Request, io.grpc.examples.helloworld.Reply> getSayMethod;
     if ((getSayMethod = GreeterGrpc.getSayMethod) == null) {
       synchronized (GreeterGrpc.class) {
         if ((getSayMethod = GreeterGrpc.getSayMethod) == null) {
           GreeterGrpc.getSayMethod = getSayMethod = 
-              io.grpc.MethodDescriptor.<io.grpc.examples.helloworld.HelloRequest, io.grpc.examples.helloworld.HelloReply>newBuilder()
+              io.grpc.MethodDescriptor.<io.grpc.examples.helloworld.Request, io.grpc.examples.helloworld.Reply>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "helloworld.Greeter", "Say"))
+                  "helloworld.Greeter", "say"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  io.grpc.examples.helloworld.HelloRequest.getDefaultInstance()))
+                  io.grpc.examples.helloworld.Request.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  io.grpc.examples.helloworld.HelloReply.getDefaultInstance()))
-                  .setSchemaDescriptor(new GreeterMethodDescriptorSupplier("Say"))
+                  io.grpc.examples.helloworld.Reply.getDefaultInstance()))
+                  .setSchemaDescriptor(new GreeterMethodDescriptorSupplier("say"))
                   .build();
           }
         }
      }
      return getSayMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getCreateMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<io.grpc.examples.helloworld.CreateRequest,
+      io.grpc.examples.helloworld.CreateReply> METHOD_CREATE = getCreateMethodHelper();
+
+  private static volatile io.grpc.MethodDescriptor<io.grpc.examples.helloworld.CreateRequest,
+      io.grpc.examples.helloworld.CreateReply> getCreateMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<io.grpc.examples.helloworld.CreateRequest,
+      io.grpc.examples.helloworld.CreateReply> getCreateMethod() {
+    return getCreateMethodHelper();
+  }
+
+  private static io.grpc.MethodDescriptor<io.grpc.examples.helloworld.CreateRequest,
+      io.grpc.examples.helloworld.CreateReply> getCreateMethodHelper() {
+    io.grpc.MethodDescriptor<io.grpc.examples.helloworld.CreateRequest, io.grpc.examples.helloworld.CreateReply> getCreateMethod;
+    if ((getCreateMethod = GreeterGrpc.getCreateMethod) == null) {
+      synchronized (GreeterGrpc.class) {
+        if ((getCreateMethod = GreeterGrpc.getCreateMethod) == null) {
+          GreeterGrpc.getCreateMethod = getCreateMethod = 
+              io.grpc.MethodDescriptor.<io.grpc.examples.helloworld.CreateRequest, io.grpc.examples.helloworld.CreateReply>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "helloworld.Greeter", "create"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  io.grpc.examples.helloworld.CreateRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  io.grpc.examples.helloworld.CreateReply.getDefaultInstance()))
+                  .setSchemaDescriptor(new GreeterMethodDescriptorSupplier("create"))
+                  .build();
+          }
+        }
+     }
+     return getCreateMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getReadMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<io.grpc.examples.helloworld.ReadRequest,
+      io.grpc.examples.helloworld.ReadReply> METHOD_READ = getReadMethodHelper();
+
+  private static volatile io.grpc.MethodDescriptor<io.grpc.examples.helloworld.ReadRequest,
+      io.grpc.examples.helloworld.ReadReply> getReadMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<io.grpc.examples.helloworld.ReadRequest,
+      io.grpc.examples.helloworld.ReadReply> getReadMethod() {
+    return getReadMethodHelper();
+  }
+
+  private static io.grpc.MethodDescriptor<io.grpc.examples.helloworld.ReadRequest,
+      io.grpc.examples.helloworld.ReadReply> getReadMethodHelper() {
+    io.grpc.MethodDescriptor<io.grpc.examples.helloworld.ReadRequest, io.grpc.examples.helloworld.ReadReply> getReadMethod;
+    if ((getReadMethod = GreeterGrpc.getReadMethod) == null) {
+      synchronized (GreeterGrpc.class) {
+        if ((getReadMethod = GreeterGrpc.getReadMethod) == null) {
+          GreeterGrpc.getReadMethod = getReadMethod = 
+              io.grpc.MethodDescriptor.<io.grpc.examples.helloworld.ReadRequest, io.grpc.examples.helloworld.ReadReply>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "helloworld.Greeter", "read"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  io.grpc.examples.helloworld.ReadRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  io.grpc.examples.helloworld.ReadReply.getDefaultInstance()))
+                  .setSchemaDescriptor(new GreeterMethodDescriptorSupplier("read"))
+                  .build();
+          }
+        }
+     }
+     return getReadMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getMonitorarMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<io.grpc.examples.helloworld.RequestM,
+      io.grpc.examples.helloworld.Reply> METHOD_MONITORAR = getMonitorarMethodHelper();
+
+  private static volatile io.grpc.MethodDescriptor<io.grpc.examples.helloworld.RequestM,
+      io.grpc.examples.helloworld.Reply> getMonitorarMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<io.grpc.examples.helloworld.RequestM,
+      io.grpc.examples.helloworld.Reply> getMonitorarMethod() {
+    return getMonitorarMethodHelper();
+  }
+
+  private static io.grpc.MethodDescriptor<io.grpc.examples.helloworld.RequestM,
+      io.grpc.examples.helloworld.Reply> getMonitorarMethodHelper() {
+    io.grpc.MethodDescriptor<io.grpc.examples.helloworld.RequestM, io.grpc.examples.helloworld.Reply> getMonitorarMethod;
+    if ((getMonitorarMethod = GreeterGrpc.getMonitorarMethod) == null) {
+      synchronized (GreeterGrpc.class) {
+        if ((getMonitorarMethod = GreeterGrpc.getMonitorarMethod) == null) {
+          GreeterGrpc.getMonitorarMethod = getMonitorarMethod = 
+              io.grpc.MethodDescriptor.<io.grpc.examples.helloworld.RequestM, io.grpc.examples.helloworld.Reply>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(
+                  "helloworld.Greeter", "monitorar"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  io.grpc.examples.helloworld.RequestM.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  io.grpc.examples.helloworld.Reply.getDefaultInstance()))
+                  .setSchemaDescriptor(new GreeterMethodDescriptorSupplier("monitorar"))
+                  .build();
+          }
+        }
+     }
+     return getMonitorarMethod;
   }
 
   /**
@@ -103,9 +214,30 @@ public final class GreeterGrpc {
      * Sends a greeting
      * </pre>
      */
-    public void say(io.grpc.examples.helloworld.HelloRequest request,
-        io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.HelloReply> responseObserver) {
+    public void say(io.grpc.examples.helloworld.Request request,
+        io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.Reply> responseObserver) {
       asyncUnimplementedUnaryCall(getSayMethodHelper(), responseObserver);
+    }
+
+    /**
+     */
+    public void create(io.grpc.examples.helloworld.CreateRequest request,
+        io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.CreateReply> responseObserver) {
+      asyncUnimplementedUnaryCall(getCreateMethodHelper(), responseObserver);
+    }
+
+    /**
+     */
+    public void read(io.grpc.examples.helloworld.ReadRequest request,
+        io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.ReadReply> responseObserver) {
+      asyncUnimplementedUnaryCall(getReadMethodHelper(), responseObserver);
+    }
+
+    /**
+     */
+    public void monitorar(io.grpc.examples.helloworld.RequestM request,
+        io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.Reply> responseObserver) {
+      asyncUnimplementedUnaryCall(getMonitorarMethodHelper(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
@@ -114,9 +246,30 @@ public final class GreeterGrpc {
             getSayMethodHelper(),
             asyncUnaryCall(
               new MethodHandlers<
-                io.grpc.examples.helloworld.HelloRequest,
-                io.grpc.examples.helloworld.HelloReply>(
+                io.grpc.examples.helloworld.Request,
+                io.grpc.examples.helloworld.Reply>(
                   this, METHODID_SAY)))
+          .addMethod(
+            getCreateMethodHelper(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                io.grpc.examples.helloworld.CreateRequest,
+                io.grpc.examples.helloworld.CreateReply>(
+                  this, METHODID_CREATE)))
+          .addMethod(
+            getReadMethodHelper(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                io.grpc.examples.helloworld.ReadRequest,
+                io.grpc.examples.helloworld.ReadReply>(
+                  this, METHODID_READ)))
+          .addMethod(
+            getMonitorarMethodHelper(),
+            asyncServerStreamingCall(
+              new MethodHandlers<
+                io.grpc.examples.helloworld.RequestM,
+                io.grpc.examples.helloworld.Reply>(
+                  this, METHODID_MONITORAR)))
           .build();
     }
   }
@@ -147,10 +300,34 @@ public final class GreeterGrpc {
      * Sends a greeting
      * </pre>
      */
-    public void say(io.grpc.examples.helloworld.HelloRequest request,
-        io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.HelloReply> responseObserver) {
+    public void say(io.grpc.examples.helloworld.Request request,
+        io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.Reply> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getSayMethodHelper(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void create(io.grpc.examples.helloworld.CreateRequest request,
+        io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.CreateReply> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getCreateMethodHelper(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void read(io.grpc.examples.helloworld.ReadRequest request,
+        io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.ReadReply> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getReadMethodHelper(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void monitorar(io.grpc.examples.helloworld.RequestM request,
+        io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.Reply> responseObserver) {
+      asyncServerStreamingCall(
+          getChannel().newCall(getMonitorarMethodHelper(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -180,9 +357,31 @@ public final class GreeterGrpc {
      * Sends a greeting
      * </pre>
      */
-    public io.grpc.examples.helloworld.HelloReply say(io.grpc.examples.helloworld.HelloRequest request) {
+    public io.grpc.examples.helloworld.Reply say(io.grpc.examples.helloworld.Request request) {
       return blockingUnaryCall(
           getChannel(), getSayMethodHelper(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public io.grpc.examples.helloworld.CreateReply create(io.grpc.examples.helloworld.CreateRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getCreateMethodHelper(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public io.grpc.examples.helloworld.ReadReply read(io.grpc.examples.helloworld.ReadRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getReadMethodHelper(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public java.util.Iterator<io.grpc.examples.helloworld.Reply> monitorar(
+        io.grpc.examples.helloworld.RequestM request) {
+      return blockingServerStreamingCall(
+          getChannel(), getMonitorarMethodHelper(), getCallOptions(), request);
     }
   }
 
@@ -212,14 +411,33 @@ public final class GreeterGrpc {
      * Sends a greeting
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<io.grpc.examples.helloworld.HelloReply> say(
-        io.grpc.examples.helloworld.HelloRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<io.grpc.examples.helloworld.Reply> say(
+        io.grpc.examples.helloworld.Request request) {
       return futureUnaryCall(
           getChannel().newCall(getSayMethodHelper(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<io.grpc.examples.helloworld.CreateReply> create(
+        io.grpc.examples.helloworld.CreateRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getCreateMethodHelper(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<io.grpc.examples.helloworld.ReadReply> read(
+        io.grpc.examples.helloworld.ReadRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getReadMethodHelper(), getCallOptions()), request);
     }
   }
 
   private static final int METHODID_SAY = 0;
+  private static final int METHODID_CREATE = 1;
+  private static final int METHODID_READ = 2;
+  private static final int METHODID_MONITORAR = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -239,8 +457,20 @@ public final class GreeterGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_SAY:
-          serviceImpl.say((io.grpc.examples.helloworld.HelloRequest) request,
-              (io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.HelloReply>) responseObserver);
+          serviceImpl.say((io.grpc.examples.helloworld.Request) request,
+              (io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.Reply>) responseObserver);
+          break;
+        case METHODID_CREATE:
+          serviceImpl.create((io.grpc.examples.helloworld.CreateRequest) request,
+              (io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.CreateReply>) responseObserver);
+          break;
+        case METHODID_READ:
+          serviceImpl.read((io.grpc.examples.helloworld.ReadRequest) request,
+              (io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.ReadReply>) responseObserver);
+          break;
+        case METHODID_MONITORAR:
+          serviceImpl.monitorar((io.grpc.examples.helloworld.RequestM) request,
+              (io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.Reply>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -304,6 +534,9 @@ public final class GreeterGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new GreeterFileDescriptorSupplier())
               .addMethod(getSayMethodHelper())
+              .addMethod(getCreateMethodHelper())
+              .addMethod(getReadMethodHelper())
+              .addMethod(getMonitorarMethodHelper())
               .build();
         }
       }

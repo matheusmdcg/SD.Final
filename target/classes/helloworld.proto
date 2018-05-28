@@ -23,16 +23,42 @@ package helloworld;
 // The greeting service definition.
 service Greeter {
   // Sends a greeting
-  rpc Say (HelloRequest) returns (HelloReply) {}
+  rpc say (Request) returns (Reply) {}
+  rpc create (CreateRequest) returns (CreateReply) {}
+  rpc read (ReadRequest) returns (ReadReply){}
+  rpc monitorar (RequestM) returns(stream Reply) {}
+}
+
+message RequestM {
+  string operacao = 1;
+  string chave = 2;
+}
+
+message Request {
+  string tudo = 1;
+}
+message Reply {
+  string resp = 1;
 }
 
 
-// The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
+message CreateRequest {
+  string operacao = 1;
+  string chave = 2;
+  string valor = 3;
+}
+message CreateReply {
+  string ok = 1;
 }
 
-// The response message containing the greetings
-message HelloReply {
-  string message = 1;
+
+message ReadRequest {
+  string operacao = 1;
+  string chave = 2;
 }
+message ReadReply {
+  string valor = 1;
+}
+
+
+

@@ -1,10 +1,5 @@
 package servidor;
-import java.math.*;
-import io.grpc.Server;
-import io.grpc.ServerBuilder;
-import io.grpc.examples.helloworld.GreeterGrpc;
-import io.grpc.examples.helloworld.HelloReply;
-import io.grpc.examples.helloworld.HelloRequest;
+import io.grpc.examples.helloworld.Reply;
 import io.grpc.stub.StreamObserver;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -17,12 +12,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static jdk.nashorn.internal.objects.NativeArray.map;
@@ -50,10 +41,10 @@ public class ThreadCrud extends Thread implements Runnable{
     private BlockingQueue<String> filaM;
     
     private Map<BigInteger, ArrayList<String>> monitorar;
-    private Map<BigInteger, ArrayList<String>> monitorargrpc;
+    private Map<BigInteger, ArrayList<StreamObserver<Reply>>> monitorargrpc;
     
     
-    public ThreadCrud(BlockingQueue tres,  Map mapas, DatagramSocket so, BlockingQueue resposta, Map<BigInteger, ArrayList<String>> m, Map<BigInteger, ArrayList<String>> n) throws SocketException, FileNotFoundException, IOException{
+    public ThreadCrud(BlockingQueue tres,  Map mapas, DatagramSocket so, BlockingQueue resposta, Map<BigInteger, ArrayList<String>> m, Map<BigInteger, ArrayList<StreamObserver<Reply>>> n) throws SocketException, FileNotFoundException, IOException{
         fila = tres;
         mapa = mapas;
         socket = so;
@@ -167,10 +158,12 @@ public class ThreadCrud extends Thread implements Runnable{
     }
     
     
-    public ArrayList<String> temp(BigInteger chave){
-        ArrayList<String> temp = new ArrayList<String>();
-        if(monitorar.containsKey(chave)){
-            temp = monitorar.get(chave);
+    public ArrayList<StreamObserver<Reply>> temp(BigInteger chave){
+        ArrayList<StreamObserver<Reply>> temp = new ArrayList<StreamObserver<Reply>>();
+        
+        
+        if(monitorargrpc.containsKey(chave)){
+            temp = monitorargrpc.get(chave);
         }
         return temp;
     }
@@ -187,10 +180,12 @@ public class ThreadCrud extends Thread implements Runnable{
                     if(monitorar.containsKey(chave))
                         this.verificar(chave, grpc, "Chave "+chave+" criada com o valor "+valor+"\n");                    
 //                }
-                    ArrayList<String> tempo = this.temp(chave);
-                    tempo.add( "Chave "+chave+" criada com o valor "+valor+"\n");
-                    monitorargrpc.put(chave, tempo);
-
+                    ArrayList<StreamObserver<Reply>> tempo = this.temp(chave);
+                    for(StreamObserver<Reply> temp : tempo){
+                        Reply reply = Reply.newBuilder().setResp("Chave "+chave+" criada com o valor "+valor+"\n").build();
+                        temp.onNext(reply);
+                    }
+                    
                 return "Criado";
             }
                     
@@ -211,9 +206,12 @@ public class ThreadCrud extends Thread implements Runnable{
                 if(monitorar.containsKey(chave))
                     this.verificar(chave, grpc, "Chave "+chave+" modificada com o valor "+valor+"\n");                
 //            }
-            ArrayList<String> tempo = this.temp(chave);
-            tempo.add( "Chave "+chave+" modificada com o valor "+valor+"\n");
-            monitorargrpc.put(chave, tempo);
+
+                ArrayList<StreamObserver<Reply>> tempo = this.temp(chave);
+                for(StreamObserver<Reply> temp : tempo){
+                    Reply reply = Reply.newBuilder().setResp("Chave "+chave+" modificada com o valor "+valor+"\n").build();
+                    temp.onNext(reply);
+                }
             return "Valor modificado";
         }
         else
@@ -227,9 +225,11 @@ public class ThreadCrud extends Thread implements Runnable{
                 if(monitorar.containsKey(chave))
                     this.verificar(chave, grpc, "Chave "+chave+" deletada com seu valor\n");                   
 //            }
-            ArrayList<String> tempo = this.temp(chave);
-            tempo.add( "Chave "+chave+" deletada com seu valor\n");
-            monitorargrpc.put(chave, tempo);
+                    ArrayList<StreamObserver<Reply>> tempo = this.temp(chave);
+                    for(StreamObserver<Reply> temp : tempo){
+                        Reply reply = Reply.newBuilder().setResp("Chave "+chave+" deletada com seu valor\n").build();
+                        temp.onNext(reply);
+                    }
             
             return "objeto deletado";
         }
