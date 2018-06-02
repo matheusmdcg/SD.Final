@@ -1,10 +1,13 @@
 package cliente;
 
+import io.grpc.examples.helloworld.GreeterGrpc;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 
@@ -18,17 +21,19 @@ public class PrincipalClienteGrpc {
         String ipgrpc = prop.getProperty("prop.server.ipgrpc");
         
         ClienteGrpc client = new ClienteGrpc(ipgrpc, portagrpc);
-        Scanner sc = new Scanner(System.in);
-        String[] partes = null;
-          try {
-            String msg;            
-            while(true){
-                msg = sc.nextLine();                
-                client.greet(msg);
-            }
-          } finally {
-            client.shutdown();
-          }
+        GreeterGrpc.GreeterStub asyncStub;
+        asyncStub = client.getAsync();
+        
+        ExecutorService pool = Executors.newCachedThreadPool();
+        NotificacaoGrpc threadNotificar = new NotificacaoGrpc(asyncStub);
+        ComandosGrpc threadComandos = new ComandosGrpc(client);
+        
+        
+        pool.execute(threadNotificar);
+        pool.execute(threadComandos);
+        pool.shutdown();
+          
+          
         
         
     }

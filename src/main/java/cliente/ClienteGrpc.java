@@ -5,6 +5,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import io.grpc.examples.helloworld.*;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,7 @@ public class ClienteGrpc {
 
   private final ManagedChannel channel;
   private final GreeterGrpc.GreeterBlockingStub blockingStub;
+  private final GreeterGrpc.GreeterStub asyncStub;
 
   /** Construct client connecting to HelloWorld server at {@code host:port}. */
   public ClienteGrpc(String host, int port) {
@@ -31,6 +33,11 @@ public class ClienteGrpc {
   ClienteGrpc(ManagedChannel channel) {
     this.channel = channel;
     blockingStub = GreeterGrpc.newBlockingStub(channel);
+    asyncStub = GreeterGrpc.newStub(channel);
+  }
+  
+  public GreeterGrpc.GreeterStub getAsync(){
+      return asyncStub;
   }
 
   public void shutdown() throws InterruptedException {
@@ -39,20 +46,33 @@ public class ClienteGrpc {
 
     public void greet(String msg) {
         String[] partes = msg.split(" ");
-            if(!partes[0].equals("5")){        
+        
+        switch(partes[0]){
+            case "1":
+            case "2":
+            case "3":
+            case "4":{
                 Request request = Request.newBuilder().setTudo(msg).build();
+                
                 Reply response;
                 response = blockingStub.say(request);
                 logger.info("Resposta: " + response.getResp());
+                break;
             }
-            else{
-                Request request = Request.newBuilder().setTudo(msg).build();
-                Reply response;
-                response = blockingStub.say(request);
+            case "5":{
+                RequestM request = RequestM.newBuilder().setChave(partes[1]).setCliente("w").build();   
+                Reply response = blockingStub.monitorar(request);
                 logger.info("Mudança: " + response.getResp());
+                break;
+            }
+            default:
+                System.out.println("deu erro");
+        }
+        
+        
+  
             }
     }
-}
 
 
 

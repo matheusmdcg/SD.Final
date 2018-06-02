@@ -26,17 +26,20 @@ service Greeter {
   rpc say (Request) returns (Reply) {}
   rpc create (CreateRequest) returns (CreateReply) {}
   rpc read (ReadRequest) returns (ReadReply){}
-  rpc monitorar (RequestM) returns(stream Reply) {}
+  rpc monitorar (RequestM) returns(Reply) {}
+  rpc notificar (Request) returns(stream Reply) {}
 }
 
 message RequestM {
-  string operacao = 1;
-  string chave = 2;
+  string chave = 1;
+  string cliente = 2;
 }
 
 message Request {
   string tudo = 1;
 }
+
+
 message Reply {
   string resp = 1;
 }

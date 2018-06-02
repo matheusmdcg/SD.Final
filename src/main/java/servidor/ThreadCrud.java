@@ -82,14 +82,13 @@ public class ThreadCrud extends Thread implements Runnable{
         if(partes.length>2 && grpc == true)
             valor = partes[++i];
         
-        if(grpc == false){
+        if(!grpc){
             InetAddress address = InetAddress.getByName(partes[++i].substring(1));
             int porta = Integer.parseInt(partes[++i]);
             iporta = address.toString()+" "+Integer.toString(porta);
             String n = this.processar(operacao, chave, valor, grpc); 
             this.enviar(n, address, porta);
-        }
-        else{
+        }else{
             String n = this.processar(operacao, chave, valor, grpc);
             filaResposta.add(n);
         }
@@ -148,11 +147,10 @@ public class ThreadCrud extends Thread implements Runnable{
     public void verificar(BigInteger chave, boolean grpc, String retorno) throws IOException{
         String[] partes;
         for(String temp: monitorar.get(chave)){
-//            if(grpc == false){
                  partes = temp.split(" ");
                  if(partes[2].equals("0"))
                     this.enviar(retorno, InetAddress.getByName(partes[0].substring(1)), Integer.parseInt(partes[1]));            
-//            }
+
 
         }
     }
@@ -176,10 +174,10 @@ public class ThreadCrud extends Thread implements Runnable{
             if(mapa.put(chave, valor) != null)
                 return "Não Criado";
             else{
-//                if(grpc == false){
+
                     if(monitorar.containsKey(chave))
                         this.verificar(chave, grpc, "Chave "+chave+" criada com o valor "+valor+"\n");                    
-//                }
+
                     ArrayList<StreamObserver<Reply>> tempo = this.temp(chave);
                     for(StreamObserver<Reply> temp : tempo){
                         Reply reply = Reply.newBuilder().setResp("Chave "+chave+" criada com o valor "+valor+"\n").build();
@@ -202,16 +200,16 @@ public class ThreadCrud extends Thread implements Runnable{
     public String modificar(BigInteger chave, String valor, boolean grpc) throws IOException{
         if(mapa.containsKey(chave)){
             String antigo = mapa.replace(chave, valor);
-//            if(grpc == false){
                 if(monitorar.containsKey(chave))
                     this.verificar(chave, grpc, "Chave "+chave+" modificada com o valor "+valor+"\n");                
-//            }
+
 
                 ArrayList<StreamObserver<Reply>> tempo = this.temp(chave);
                 for(StreamObserver<Reply> temp : tempo){
                     Reply reply = Reply.newBuilder().setResp("Chave "+chave+" modificada com o valor "+valor+"\n").build();
                     temp.onNext(reply);
                 }
+                
             return "Valor modificado";
         }
         else

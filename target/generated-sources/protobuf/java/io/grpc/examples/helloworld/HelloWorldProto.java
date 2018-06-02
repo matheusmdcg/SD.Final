@@ -58,21 +58,23 @@ public final class HelloWorldProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020helloworld.proto\022\nhelloworld\"+\n\010Reques" +
-      "tM\022\020\n\010operacao\030\001 \001(\t\022\r\n\005chave\030\002 \001(\t\"\027\n\007R" +
-      "equest\022\014\n\004tudo\030\001 \001(\t\"\025\n\005Reply\022\014\n\004resp\030\001 " +
-      "\001(\t\"?\n\rCreateRequest\022\020\n\010operacao\030\001 \001(\t\022\r" +
-      "\n\005chave\030\002 \001(\t\022\r\n\005valor\030\003 \001(\t\"\031\n\013CreateRe" +
-      "ply\022\n\n\002ok\030\001 \001(\t\".\n\013ReadRequest\022\020\n\010operac" +
-      "ao\030\001 \001(\t\022\r\n\005chave\030\002 \001(\t\"\032\n\tReadReply\022\r\n\005" +
-      "valor\030\001 \001(\t2\356\001\n\007Greeter\022/\n\003say\022\023.hellowo" +
-      "rld.Request\032\021.helloworld.Reply\"\000\022>\n\006crea" +
-      "te\022\031.helloworld.CreateRequest\032\027.hellowor" +
-      "ld.CreateReply\"\000\0228\n\004read\022\027.helloworld.Re" +
-      "adRequest\032\025.helloworld.ReadReply\"\000\0228\n\tmo" +
-      "nitorar\022\024.helloworld.RequestM\032\021.hellowor" +
-      "ld.Reply\"\0000\001B6\n\033io.grpc.examples.hellowo" +
-      "rldB\017HelloWorldProtoP\001\242\002\003HLWb\006proto3"
+      "\n\020helloworld.proto\022\nhelloworld\"*\n\010Reques" +
+      "tM\022\r\n\005chave\030\001 \001(\t\022\017\n\007cliente\030\002 \001(\t\"\027\n\007Re" +
+      "quest\022\014\n\004tudo\030\001 \001(\t\"\025\n\005Reply\022\014\n\004resp\030\001 \001" +
+      "(\t\"?\n\rCreateRequest\022\020\n\010operacao\030\001 \001(\t\022\r\n" +
+      "\005chave\030\002 \001(\t\022\r\n\005valor\030\003 \001(\t\"\031\n\013CreateRep" +
+      "ly\022\n\n\002ok\030\001 \001(\t\".\n\013ReadRequest\022\020\n\010operaca" +
+      "o\030\001 \001(\t\022\r\n\005chave\030\002 \001(\t\"\032\n\tReadReply\022\r\n\005v" +
+      "alor\030\001 \001(\t2\245\002\n\007Greeter\022/\n\003say\022\023.hellowor" +
+      "ld.Request\032\021.helloworld.Reply\"\000\022>\n\006creat" +
+      "e\022\031.helloworld.CreateRequest\032\027.helloworl" +
+      "d.CreateReply\"\000\0228\n\004read\022\027.helloworld.Rea" +
+      "dRequest\032\025.helloworld.ReadReply\"\000\0226\n\tmon" +
+      "itorar\022\024.helloworld.RequestM\032\021.helloworl" +
+      "d.Reply\"\000\0227\n\tnotificar\022\023.helloworld.Requ" +
+      "est\032\021.helloworld.Reply\"\0000\001B6\n\033io.grpc.ex" +
+      "amples.helloworldB\017HelloWorldProtoP\001\242\002\003H" +
+      "LWb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -91,7 +93,7 @@ public final class HelloWorldProto {
     internal_static_helloworld_RequestM_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_helloworld_RequestM_descriptor,
-        new java.lang.String[] { "Operacao", "Chave", });
+        new java.lang.String[] { "Chave", "Cliente", });
     internal_static_helloworld_Request_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_helloworld_Request_fieldAccessorTable = new
