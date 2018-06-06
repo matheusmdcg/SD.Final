@@ -8,8 +8,10 @@ import java.util.logging.Logger;
 
 public class ComandosGrpc extends Thread implements Runnable{
     private ClienteGrpc client;
-    public ComandosGrpc(ClienteGrpc c){
+    private String individual;
+    public ComandosGrpc(ClienteGrpc c, String i){
         client = c;
+        this.individual = i;
     }
     
     public void run(){
@@ -18,7 +20,7 @@ public class ComandosGrpc extends Thread implements Runnable{
             String msg;            
             while(true){
                 msg = sc.nextLine();                
-                client.greet(msg);
+                client.greet(msg, this.individual);
             }
           } finally {
             try {

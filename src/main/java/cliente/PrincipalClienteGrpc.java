@@ -2,6 +2,8 @@ package cliente;
 
 import io.grpc.examples.helloworld.GreeterGrpc;
 import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Properties;
@@ -24,9 +26,15 @@ public class PrincipalClienteGrpc {
         GreeterGrpc.GreeterStub asyncStub;
         asyncStub = client.getAsync();
         
+        
+        DatagramSocket socket = new DatagramSocket();
+        InetAddress ip = socket.getLocalAddress();
+        Integer porta = socket.getLocalPort();
+        
+        
         ExecutorService pool = Executors.newCachedThreadPool();
-        NotificacaoGrpc threadNotificar = new NotificacaoGrpc(asyncStub);
-        ComandosGrpc threadComandos = new ComandosGrpc(client);
+        NotificacaoGrpc threadNotificar = new NotificacaoGrpc(asyncStub, ip.toString() + porta.toString());
+        ComandosGrpc threadComandos = new ComandosGrpc(client, ip.toString() + porta.toString());
         
         
         pool.execute(threadNotificar);

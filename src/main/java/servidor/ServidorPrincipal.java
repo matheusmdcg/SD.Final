@@ -39,10 +39,11 @@ public class ServidorPrincipal{
         BlockingQueue<String> fila03 = new LinkedBlockingDeque<String>();
         BlockingQueue<String> filaResposta = new LinkedBlockingDeque<String>();
        
+        Map<String, StreamObserver<Reply>> monitorargrpc = new HashMap<String, StreamObserver<Reply>>();
+        Map<BigInteger, ArrayList<String>> monitorarChaveId = new HashMap<BigInteger, ArrayList<String>>();  
+        Map<BigInteger, ArrayList<String>> monitorarResp = new HashMap<BigInteger, ArrayList<String>>();
+        Map<BigInteger, ArrayList<String>> mapa = new HashMap<BigInteger, ArrayList<String>>();
         Map<BigInteger, ArrayList<String>> monitorar = new HashMap<BigInteger, ArrayList<String>>();
-        Map<BigInteger, ArrayList<StreamObserver<Reply>>> monitorargrpc = new HashMap<BigInteger, ArrayList<StreamObserver<Reply>>>();
-        Map<BigInteger, String> mapa = new HashMap<BigInteger, String>();
-        
         
         
         BufferedReader leitura = new BufferedReader(new FileReader("log.txt"));
@@ -53,7 +54,7 @@ public class ServidorPrincipal{
         ProcessaLog reescrever = new ProcessaLog(leitura, mapa);          
         ThreadLog s1 = new ThreadLog(fila02, escrita);
         ThreadFilas s2 = new ThreadFilas(fila01, fila02, fila03);
-        ThreadCrud s3 = new ThreadCrud(fila03, mapa, socket,filaResposta, monitorar, monitorargrpc);
+        ThreadCrud s3 = new ThreadCrud(fila03, mapa,  socket, filaResposta, monitorargrpc, monitorarChaveId, monitorarResp, monitorar);
         ThreadReceber s4 = new ThreadReceber(socket,fila01);
        
         reescrever.run();
@@ -63,7 +64,7 @@ public class ServidorPrincipal{
         pool.execute(s4);
         
         ServerBuilder<? extends ServerBuilder<?>> serverc = ServerBuilder.forPort(portagrpc);
-        ServidorGrpc grpc = new ServidorGrpc(fila01, serverc, filaResposta, monitorargrpc);
+        ServidorGrpc grpc = new ServidorGrpc(fila01, serverc, filaResposta, monitorargrpc, monitorarChaveId);
         grpc.start();
         grpc.blockUntilShutdown();
         

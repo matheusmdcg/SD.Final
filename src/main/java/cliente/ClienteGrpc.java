@@ -44,7 +44,7 @@ public class ClienteGrpc {
     channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
   }
 
-    public void greet(String msg) {
+    public void greet(String msg, String individual) {
         String[] partes = msg.split(" ");
         
         switch(partes[0]){
@@ -60,7 +60,7 @@ public class ClienteGrpc {
                 break;
             }
             case "5":{
-                RequestM request = RequestM.newBuilder().setChave(partes[1]).setCliente("w").build();   
+                RequestM request = RequestM.newBuilder().setChave(partes[1]).setCliente(individual).build();   
                 Reply response = blockingStub.monitorar(request);
                 logger.info("Mudança: " + response.getResp());
                 break;

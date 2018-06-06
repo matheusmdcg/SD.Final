@@ -20,10 +20,12 @@ public class ServidorGrpc {
 
     private BlockingQueue<String> fila01;
 
-    public ServidorGrpc(BlockingQueue um, ServerBuilder g, BlockingQueue resposta, Map<BigInteger, ArrayList<StreamObserver<Reply>>> monitorar) throws IOException {
+    public ServidorGrpc(BlockingQueue um, ServerBuilder g, BlockingQueue resposta,
+                Map<String, StreamObserver<Reply>> monitorar,
+                Map<BigInteger, ArrayList<String>> monitorar2) throws IOException {
 
         fila01 = um;
-        server = g.addService(new GreeterImpl(fila01, resposta, monitorar))
+        server = g.addService(new GreeterImpl(fila01, resposta, monitorar, monitorar2))
                 .build()
                 .start();
     }
@@ -58,12 +60,17 @@ public class ServidorGrpc {
 
         private BlockingQueue<String> filatemp;
         private BlockingQueue<String> filaResposta;
-        private Map<BigInteger, ArrayList<StreamObserver<Reply>>> monitorargrpc;
+        private Map<String, StreamObserver<Reply>> monitorargrpc;//Identificador para Observer
+        private Map<BigInteger, ArrayList<String>> monitorarChaveId;//Chave para Lista de Identificadores
 
-        public GreeterImpl(BlockingQueue um, BlockingQueue resposta, Map<BigInteger, ArrayList<StreamObserver<Reply>>> monitorar) {
+        public GreeterImpl(BlockingQueue um, BlockingQueue resposta, 
+                Map<String, StreamObserver<Reply>> monitorar,
+                Map<BigInteger, ArrayList<String>> monitorar2) {
+            
             filatemp = um;
             filaResposta = resposta;
             monitorargrpc = monitorar;
+            monitorarChaveId = monitorar2;
         }
 
         @Override
@@ -85,14 +92,11 @@ public class ServidorGrpc {
         @Override
         public void monitorar(RequestM req, StreamObserver<Reply> responseObserver) {
 
-            ArrayList<StreamObserver<Reply>> temp;
             BigInteger chave = new BigInteger(req.getChave());
-            temp = monitorargrpc.get(chave);
-            temp.add(responseObserver);
+            String individual = req.getCliente();
 
-            monitorargrpc.put(chave, temp);
-            //filatemp.add(req.getOperacao()+" "+req.getChave());  
-
+            monitorarChaveId.computeIfAbsent(chave, k -> new ArrayList<String>()).add(individual);
+            
             Reply reply = Reply.newBuilder().setResp("Chave sendo monitorada").build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
@@ -101,10 +105,16 @@ public class ServidorGrpc {
 
         @Override
         public void notificar(Request req, StreamObserver<Reply> responseObserver) {
-            Reply reply = Reply.newBuilder().setResp("resposta").build();
-            responseObserver.onNext(reply);
+            monitorargrpc.put(req.getTudo(), responseObserver);
+            
             //responseObserver.onCompleted();
         }
+        
+        
+        
+        
+        
+        
         
         
 //        @Override     
