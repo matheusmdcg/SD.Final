@@ -8,7 +8,10 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
@@ -50,11 +53,12 @@ public class ThreadSnap extends Thread implements Runnable {
     }
 
     public void apagar() throws IOException {
-        File[] listaSnaps = diretorioSnaps.listFiles();
+        List<File> listaSnaps = Arrays.asList(diretorioSnaps.listFiles());
+        Collections.sort(listaSnaps);
         File[] listaLogs = diretorioLogs.listFiles();
         
-        if(listaSnaps.length>4){
-            listaSnaps[0].delete();
+        if(listaSnaps.size()>4){
+            listaSnaps.get(0).delete();
         }
         if(listaLogs.length>4){
             listaLogs[0].delete();
@@ -65,10 +69,13 @@ public class ThreadSnap extends Thread implements Runnable {
     @Override
     public void run() {
         while (true) {
-
-            try {
+            try{
                 Thread.sleep(7000);
-                FileOutputStream escrita = new FileOutputStream(this.onde());
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ThreadSnap.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            try (FileOutputStream escrita = new FileOutputStream(this.onde())) {
                 mapa.forEach((K, V) -> {
                     try {
                         String w = K.toString() + " " + V + "\n";
@@ -81,7 +88,6 @@ public class ThreadSnap extends Thread implements Runnable {
                 });
                 novo.take();
                 novo.add(1);
-                escrita.close();
                 this.apagar();
 
             } catch (InterruptedException ex) {
